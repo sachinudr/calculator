@@ -67,9 +67,9 @@ class App extends Component {
     for(i=0; i<expr.length;i++)
     {
       let a="";
-      if(expr[i] >=0 && expr[i]<=9)
+      if(expr[i]=='.' || expr[i] >=0 && expr[i]<=9)
       {
-         while (i < expr.length && expr[i] >= 0 && expr[i] <= 9)
+         while (i < expr.length && expr[i] >= 0 && expr[i] <= 9 || expr[i]=='.')
          {
            a = a + expr[i];
            i = i + 1;
@@ -81,7 +81,7 @@ class App extends Component {
             i--;
             flag=0;
           }
-        stackValues.push(parseInt(a));
+        stackValues.push(parseFloat(a));
       }
       else if (expr[i] === '(')
                 stackOperand.push(expr[i]);
@@ -122,6 +122,7 @@ class App extends Component {
         a=stackValues.pop();
        }
         this.setState({answer:a,expr:[]});
+        console.log(a);
   }
   show()
   {
@@ -148,7 +149,6 @@ class App extends Component {
   handlevalue(value)
   {
     let arr = this.state.expr;
-    console.log("in");
     if(value === "=")
     {
       this.expressionEvaluate();
