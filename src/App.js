@@ -28,6 +28,12 @@ class App extends Component {
     let temp=b;
     b=c;
     c=temp;
+    if(c>b)
+    {
+      let temp=b;
+    b=c;
+    c=temp;
+    }
     switch(a)
     {
       case '+':
@@ -61,22 +67,20 @@ class App extends Component {
     let expr = this.state.expr;
     let stackValues=[];
     let stackOperand=[];
-    let buffer=[];
-    let length=stackValues.length;
     let len1=stackOperand.length-1;
     for(i=0; i<expr.length;i++)
     {
       let a="";
-      if(expr[i]=='.' || expr[i] >=0 && expr[i]<=9)
+      if(expr[i]==='.' || expr[i] >=0 && expr[i]<=9)
       {
-         while (i < expr.length && expr[i] >= 0 && expr[i] <= 9 || expr[i]=='.')
+         while (i < expr.length && expr[i] >= 0 && expr[i] <= 9 || expr[i]==='.')
          {
            a = a + expr[i];
            i = i + 1;
            flag=1;
             
           }
-          if(flag==1)
+          if(flag===1)
           {
             i--;
             flag=0;
@@ -108,21 +112,23 @@ class App extends Component {
  
                 stackOperand.push(expr[i]);
             }
+            else{
+              stackValues.push(expr[i]);
+            }
     }
       len1 = stackOperand.length-1;
        while (len1>-1)
        {
          let t=this.applyOp(stackOperand.pop(), stackValues.pop(), stackValues.pop());
          stackValues.push(t);
-         len1 =len1-1;
+         len1=len1-1;
        }
        let a;
        if(stackValues.length!==0)
        {
-        a=stackValues.pop();
+        a=stackValues[0];
        }
         this.setState({answer:a,expr:[]});
-        console.log(a);
   }
   show()
   {
@@ -133,6 +139,8 @@ class App extends Component {
     let length=arr.length;
     if(length === 0)
     {
+      if(answer==='')
+        return '0'
       return answer;
     }
     else
@@ -160,10 +168,26 @@ class App extends Component {
     {
       arr.pop(value);
       this.setState({expr:arr});
+
+    }
+    else if(value>= 0 && value<=9 )
+    {
+        if(this.state.answer!=='')
+        {
+          this.setState({answer:''});
+        }
+        let arr=this.state.expr;
+      arr.push(value);
+      this.setState({expr:arr});
     }
     else{
-      let arr=this.state.expr;
-      arr.push(value);
+        let arr=this.state.expr;
+        if(this.state.answer!=='')
+        {
+          arr.push(this.state.answer);
+          this.setState({answer:''});
+        }
+        arr.push(value);
       this.setState({expr:arr});
     }
      
