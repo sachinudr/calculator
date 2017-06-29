@@ -37,7 +37,7 @@ class App extends Component {
         case '*':
             return b* c;
         case '/':
-            return a / b;
+            return b/c;
           default:
               console.log("wrong input");
 
@@ -190,14 +190,17 @@ class App extends Component {
 
     }
     return (
+
       <div className="main">
+      
       <div className="Calculator">
         <input type="text" value={this.show()} />
         <div className="row">
         {row}
         </div>
       </div>
-      </div>
+     </div>
+
   );
 }
 }
